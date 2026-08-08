@@ -50,7 +50,7 @@ WA_BUSINESS_ID = "695194337013529"
 WA_TOKEN = "EAAHPINsf7EcBPKiothSx8vR3Kbw5eOUwqxUD3g07A6evEZAoUAFN32cZC6EZAYQuem3QZA4HjmJSzw93VIMAiwbyk0kRKT75VK2qDFvPnUZBZBvEJP59n8wmobSNrpc4qsjl9a8M6ZA1mZBqKHzW91gqZC4FKz2vcMrXtZCjpylxxE9OYEk9ZCV2SolqAUw4rLkwkfRMAZDZD"
 WA_TEMPLATE = "declartion"
 WA_LANG = "en"
-SEND_TO_NUMBER = "919854186693"
+SEND_TO_NUMBER = "918761913078"
 # ==============================================================================
 
 # BigQuery Schema
@@ -107,9 +107,19 @@ def get_dynamic_gst_dates(override_month=None, override_year=None):
 def solve_captcha_2captcha(driver, captcha_img_element):
     """Solves the visual GST CAPTCHA."""
     print("🤖 Sending CAPTCHA to 2Captcha API...")
+    
+    # 🔴 FIX: Give invisible Chrome time to load the image and bring it into view
+    time.sleep(2)
+    driver.execute_script("arguments[0].scrollIntoView({block: 'center'});", captcha_img_element)
+    time.sleep(0.5)
+    
     captcha_filename = os.path.join(DOWNLOAD_DIR, "gst_captcha.png")
     captcha_img_element.screenshot(captcha_filename)
     
+    # 🔴 FIX: Safety check to prevent crashing the API if it's 0 bytes
+    if not os.path.exists(captcha_filename) or os.path.getsize(captcha_filename) == 0:
+        raise Exception("❌ CAPTCHA screenshot failed (0 bytes). The GST portal loaded too slowly.")
+        
     with open(captcha_filename, "rb") as image_file:
         encoded_string = base64.b64encode(image_file.read()).decode('utf-8')
         
