@@ -1,0 +1,10 @@
+# Ignore Google Cloud Credentials
+*.json
+
+# Ignore downloaded/generated files
+*.xlsx
+*.pdf
+*.png
+
+# Ignore Python cache
+__pycache__/
