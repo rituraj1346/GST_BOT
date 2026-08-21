@@ -18,13 +18,29 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support.ui import Select
 from selenium.webdriver.support import expected_conditions as EC
+import logging
+import sys
+import codecs
 
+# 🔴 Force Windows console to accept emojis and Unicode characters
+sys.stdout = codecs.getwriter("utf-8")(sys.stdout.detach())
+
+# Configure the server logger
+logging.basicConfig(
+    level=logging.INFO, # Records INFO, WARNING, ERROR, and CRITICAL
+    format="[%(asctime)s] %(levelname)s: %(message)s", # Adds timestamp and severity
+    datefmt="%Y-%m-%d %H:%M:%S",
+    handlers=[
+        logging.FileHandler(r"C:\GST Bot\server_logs.log"), # Saves to a permanent file
+        logging.StreamHandler() # Also prints to the console live
+    ]
+)
 # ==============================================================================
 # CONFIGURATION - FILL IN YOUR DETAILS HERE
 # ==============================================================================
 TWOCAPTCHA_API_KEY = "7edb643dc2fc3fd3c31baeb38dbe30cc"
 GST_USERNAME = "AABFB6874"
-GST_PASSWORD = "Jitu@2026"
+GST_PASSWORD = "Jitu&2026"
 
 # ==============================================================================
 # TIME TRAVEL OVERRIDE (Set to None for automatic dynamic dates)
@@ -50,7 +66,7 @@ WA_BUSINESS_ID = "695194337013529"
 WA_TOKEN = "EAAHPINsf7EcBPKiothSx8vR3Kbw5eOUwqxUD3g07A6evEZAoUAFN32cZC6EZAYQuem3QZA4HjmJSzw93VIMAiwbyk0kRKT75VK2qDFvPnUZBZBvEJP59n8wmobSNrpc4qsjl9a8M6ZA1mZBqKHzW91gqZC4FKz2vcMrXtZCjpylxxE9OYEk9ZCV2SolqAUw4rLkwkfRMAZDZD"
 WA_TEMPLATE = "declartion"
 WA_LANG = "en"
-SEND_TO_NUMBER = "918761913078"
+SEND_TO_NUMBER = "919854186693"
 # ==============================================================================
 
 # BigQuery Schema
@@ -101,7 +117,7 @@ def get_dynamic_gst_dates(override_month=None, override_year=None):
     elif target_month in [10, 11, 12]: quarter = "Quarter 3 (Oct - Dec)"
     else: quarter = "Quarter 4 (Jan - Mar)"
         
-    print(f"🗓️ Target Period: FY {financial_year} | {quarter} | {period}")
+    print(f" Target Period: FY {financial_year} | {quarter} | {period}")
     return financial_year, quarter, period, target_month, target_year
 
 def solve_captcha_2captcha(driver, captcha_img_element):
@@ -731,7 +747,7 @@ def run_master_bot():
                 if gstr2b_view_btn: break
             except: continue
                 
-        if not gstr2b_view_btn: raise Exception("❌ Could not isolate the GSTR-2B View button.")
+        if not gstr2b_view_btn: raise Exception(" Could not isolate the GSTR-2B View button.")
         
         driver.execute_script("arguments[0].scrollIntoView({block: 'center'});", gstr2b_view_btn)
         time.sleep(1.5)
@@ -759,7 +775,7 @@ def run_master_bot():
         # Send Excel
         send_document_via_whatsapp(generated_excel_path, period_string, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
         
-        # 🔴 CLEANUP ROUTINE
+      # 🔴 CLEANUP ROUTINE
         print("\n🧹 Cleaning up local temporary files...")
         files_to_delete = [
             downloaded_excel_path, 
@@ -774,13 +790,24 @@ def run_master_bot():
                     os.remove(f_path)
                     print(f"   -> Deleted: {os.path.basename(f_path)}")
                 except Exception as del_err:
-                    print(f"   ⚠️ Could not delete {os.path.basename(f_path)}: {del_err}")
+                    print(f"    Could not delete {os.path.basename(f_path)}: {del_err}")
                     
-        print("🚀 Automation Complete! Environment is clean.")
+        print(" Automation Complete! Environment is clean.")
         
     except Exception as e:
-        print("\n❌ An error occurred during execution:")
+        print(f"\n❌ An error occurred during execution: {e}")
         traceback.print_exc()
+        
+        # --- NEW: CRASH CAMERA ---
+        try:
+            screenshot_path = os.path.join(DOWNLOAD_DIR, "crash_screenshot.png")
+            driver.save_screenshot(screenshot_path)
+            print(f"📸 CRASH SNAPSHOT TAKEN! Check the image at: {screenshot_path}")
+        except Exception as screen_err:
+            print(f"Could not take crash screenshot: {screen_err}")
+        # -------------------------
+        
+    finally:
         try: driver.quit() 
         except: pass
 
