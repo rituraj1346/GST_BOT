@@ -38,9 +38,9 @@ logging.basicConfig(
 # ==============================================================================
 # CONFIGURATION - FILL IN YOUR DETAILS HERE
 # ==============================================================================
-TWOCAPTCHA_API_KEY = "7edb643dc2fc3fd3c31baeb38dbe30cc"
-GST_USERNAME = "AABFB6874"
-GST_PASSWORD = "Jitu&2026"
+TWOCAPTCHA_API_KEY = ""
+GST_USERNAME = ""
+GST_PASSWORD = ""
 
 # ==============================================================================
 # TIME TRAVEL OVERRIDE (Set to None for automatic dynamic dates)
@@ -52,25 +52,25 @@ OVERRIDE_YEAR = None
 # System Paths
 # Automatically uses the folder where the script is located
 DOWNLOAD_DIR = os.path.dirname(os.path.abspath(__file__)) 
-SERVICE_ACCOUNT_FILE = os.path.join(DOWNLOAD_DIR, "halogen-valve-469005-j3-0b0820e1bd6c.json")
+SERVICE_ACCOUNT_FILE = os.path.join(DOWNLOAD_DIR, "") #add the file name 
 os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = SERVICE_ACCOUNT_FILE
 
 # Google Drive Configuration
-DRIVE_FOLDER_ID = "0AA-fV1pVBSk9Uk9PVA"
+DRIVE_FOLDER_ID = ""
 
 # ==============================================================================
 # WhatsApp API Configuration
 # ==============================================================================
-WA_PHONE_ID = "695194337013529"
-WA_BUSINESS_ID = "695194337013529"
-WA_TOKEN = "EAAHPINsf7EcBPKiothSx8vR3Kbw5eOUwqxUD3g07A6evEZAoUAFN32cZC6EZAYQuem3QZA4HjmJSzw93VIMAiwbyk0kRKT75VK2qDFvPnUZBZBvEJP59n8wmobSNrpc4qsjl9a8M6ZA1mZBqKHzW91gqZC4FKz2vcMrXtZCjpylxxE9OYEk9ZCV2SolqAUw4rLkwkfRMAZDZD"
+WA_PHONE_ID = ""
+WA_BUSINESS_ID = ""
+WA_TOKEN = ""
 WA_TEMPLATE = "declartion"
 WA_LANG = "en"
-SEND_TO_NUMBER = "919854186693"
+SEND_TO_NUMBER = "91"
 # ==============================================================================
 
 # BigQuery Schema
-PROJECT_ID = "halogen-valve-469005-j3"
+PROJECT_ID = ""  #add the project id 
 BQ_DATASETS = {
     "tallydb": "Hardware",
     "tallydb3": "Paints",
