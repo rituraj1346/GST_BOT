@@ -22,7 +22,7 @@ import logging
 import codecs
 from dotenv import load_dotenv  
 
-load_dotenv()                   
+load_dotenv()    
 
 # 🔴 Force Windows console to accept emojis and Unicode characters
 sys.stdout = codecs.getwriter("utf-8")(sys.stdout.detach())
@@ -41,9 +41,8 @@ logging.basicConfig(
 # CONFIGURATION - FILL IN YOUR DETAILS HERE
 # ==============================================================================
 TWOCAPTCHA_API_KEY = os.getenv("TWOCAPTCHA_API_KEY")
-GST_USERNAME = os.getenv("MAIN_GST_USERNAME")
-GST_PASSWORD = os.getenv("MAIN_GST_PASSWORD")
-
+GST_USERNAME = os.getenv("PR_GST_USERNAME")
+GST_PASSWORD = os.getenv("PR_GST_PASSWORD")
 # ==============================================================================
 # TIME TRAVEL OVERRIDE (Set to None for automatic dynamic dates)
 # Example: OVERRIDE_MONTH = 4  | OVERRIDE_YEAR = 2026
@@ -58,7 +57,7 @@ SERVICE_ACCOUNT_FILE = os.path.join(DOWNLOAD_DIR, "halogen-valve-469005-j3-0b082
 os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = SERVICE_ACCOUNT_FILE
 
 # Google Drive Configuration
-DRIVE_FOLDER_ID = os.getenv("MAIN_DRIVE_FOLDER_ID")
+DRIVE_FOLDER_ID = os.getenv("PR_DRIVE_FOLDER_ID")
 
 # ==============================================================================
 # WhatsApp API Configuration
@@ -74,10 +73,7 @@ SEND_TO_NUMBER = os.getenv("SEND_TO_NUMBER")
 # BigQuery Schema
 PROJECT_ID = "halogen-valve-469005-j3"
 BQ_DATASETS = {
-    "tallydb": "Hardware",
-    "tallydb3": "Paints",
-    "tallydb4": "Tiles",
-    "tallydb5": "Grocery"
+    "P_R": "P&R"
 } 
 BQ_TABLE_NAME = "trn_voucher" 
 

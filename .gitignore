@@ -8,3 +8,4 @@
 
 # Ignore Python cache
 __pycache__/
+.env
