@@ -33,7 +33,7 @@ logging.basicConfig(
     format="[%(asctime)s] %(levelname)s: %(message)s", # Adds timestamp and severity
     datefmt="%Y-%m-%d %H:%M:%S",
     handlers=[
-        logging.FileHandler(r"C:\GST Bot\server_logs.log"), # Saves to a permanent file
+        logging.FileHandler(r"D:\GST Bot\server_logs.log"), # Saves to a permanent file
         logging.StreamHandler() # Also prints to the console live
     ]
 )
@@ -677,6 +677,14 @@ def run_master_bot():
     }
     options.add_experimental_option("prefs", prefs)
     
+    # 🔴 FIX: ADD ANTI-BOT STEALTH SETTINGS
+    options.add_argument("--disable-blink-features=AutomationControlled")
+    options.add_experimental_option("excludeSwitches", ["enable-automation"])
+    options.add_experimental_option('useAutomationExtension', False)
+    
+    # Force a real human User-Agent so the server doesn't see "HeadlessChrome"
+    options.add_argument("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36")
+    
     # 🔴 READS YOUR TERMINAL COMMAND
     if "--visible" in sys.argv:
         print("Running Chrome in visible testing mode...")
@@ -688,6 +696,10 @@ def run_master_bot():
         options.add_argument('--no-sandbox')
     
     driver = webdriver.Chrome(options=options)
+    
+    # 🔴 FIX: WIPE THE "WEBDRIVER" FINGERPRINT FROM JAVASCRIPT
+    driver.execute_script("Object.defineProperty(navigator, 'webdriver', {get: () => undefined})")
+    
     wait = WebDriverWait(driver, 30)
     
     try:
